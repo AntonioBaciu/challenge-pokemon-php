@@ -7,9 +7,9 @@
     }
 ?> 
 
-    <!-- <form action="index.php" method="GET">
+    <form action="index.php" method="GET">
       <input type="text" name="name" placeholder="Name" />
       <input type="text" name="age" placeholder="Age" />
       <input type="submit" />
-    </form> -->
+    </form>
 
