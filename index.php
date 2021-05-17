@@ -13,7 +13,10 @@ if (!empty($_GET['name'])) { // gets the input value
     $poke_img = $poke_array['sprites']['front_default'];
 
     // Gets moves
-    // $poke_moves = $poke_array['moves']
+    for ($i = 0; $i <= 5; $i++) {
+    $poke_moves = $poke_array['moves'][$i]['move']['name'];
+    // echo $poke_moves . ' ';
+    }
 }
 ?>
 
@@ -45,7 +48,7 @@ if (!empty($_GET['name'])) { // gets the input value
             if (isset($_GET['name'])) 
             { echo "Id: #{$poke_id}";}
             ?>
-        </h1> <!-- Pokemon img -->
+        </h1> <!-- Pokemon img -->  
         <img src="
             <?php 
             if (isset($_GET['name'])) 
@@ -55,7 +58,16 @@ if (!empty($_GET['name'])) { // gets the input value
 
     <!-- Pokemon Moves -->
     <div>
-
+        <h1>
+            <?php 
+                if (isset($_GET['name'])) { 
+                    for ($i = 0; $i <= 5; $i++) {
+                    $poke_moves = $poke_array['moves'][$i]['move']['name'];
+                    echo $poke_moves . ' ';
+                    } 
+                }
+            ?>
+        </h1>
     </div>
 </body>
 </html>
