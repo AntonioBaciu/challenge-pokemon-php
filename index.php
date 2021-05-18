@@ -1,35 +1,38 @@
 <?php
 // Pokemon API
-if (!empty($_GET['name'])) { // gets the input value
-    $poke_url = 'https://pokeapi.co/api/v2/pokemon/' . urlencode($_GET['name']); // url api
-    $poke_json = file_get_contents($poke_url); // gets api & species
-    $poke_array = json_decode($poke_json, true); // converts api to array
+$search_term = 'bulbasaur';
+if (!empty($_GET['name'])) {
+    $search_term = $_GET['name'];
+} // gets the input value
+$poke_url = 'https://pokeapi.co/api/v2/pokemon/' . urlencode($search_term); // url api
+$poke_json = file_get_contents($poke_url); // gets api & species
+$poke_array = json_decode($poke_json, true); // converts api to array
 
-    // Gets Pokemon info
-    $name = $_GET['name'];
-    $poke_name = $poke_array['name'];
-    $poke_id = $poke_array['id'];
+// Gets Pokemon info
+$name = $search_term;
+$poke_name = $poke_array['name'];
+$poke_id = $poke_array['id'];
 
-    // Stats                   
-    $poke_hp = $poke_array['stats'][0]['base_stat'];
-    $poke_dmg = $poke_array['stats'][1]['base_stat']; // attack
-    $poke_def = $poke_array['stats'][2]['base_stat'];
-    $poke_special = $poke_array['stats'][3]['base_stat']; // special attack
-    $poke_special_def = $poke_array['stats'][4]['base_stat']; // special defense
+// Stats                   
+$poke_hp = $poke_array['stats'][0]['base_stat'];
+$poke_dmg = $poke_array['stats'][1]['base_stat']; // attack
+$poke_def = $poke_array['stats'][2]['base_stat'];
+$poke_special = $poke_array['stats'][3]['base_stat']; // special attack
+$poke_special_def = $poke_array['stats'][4]['base_stat']; // special defense
 
-    // Gets img default & shiny
-    $poke_img_front = $poke_array['sprites']['front_default'];
-    $poke_img_back = $poke_array['sprites']['back_default'];
+// Gets img default & shiny
+$poke_img_front = $poke_array['sprites']['front_default'];
+$poke_img_back = $poke_array['sprites']['back_default'];
 
-    // Evolutions API
-    $poke_species_url = 'https://pokeapi.co/api/v2/pokemon-species/' . urlencode($_GET['name']); // url species 
-    $poke_json_species = file_get_contents($poke_species_url);
-    $poke_array_species = json_decode($poke_json_species, true); // converts species to array
+// Evolutions API
+$poke_species_url = 'https://pokeapi.co/api/v2/pokemon-species/' . urlencode($search_term); // url species 
+$poke_json_species = file_get_contents($poke_species_url);
+$poke_array_species = json_decode($poke_json_species, true); // converts species to array
 
-    // Gets evolution info
-    $poke_habitat = $poke_array_species['habitat'];
-    $poke_growth = $poke_array_species['growth_rate']['name'];
-}
+// Gets evolution info
+$poke_habitat = $poke_array_species['habitat'];
+$poke_growth = $poke_array_species['growth_rate']['name'];
+
 ?>
 
 <!DOCTYPE html>
@@ -85,34 +88,28 @@ if (!empty($_GET['name'])) { // gets the input value
                                 <div class="name">
                                     <!-- Pokemon name -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo ucfirst($poke_name);
-                                    }
+                                    echo ucfirst($poke_name);
                                     ?>
                                 </div>
 
                                 <div class="id">
                                     <!-- Pokemon id -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "Id: #{$poke_id}";
-                                    }
+                                    echo "Id: #{$poke_id}";
                                     ?>
                                 </div>
 
                                 <div class="evo">
                                     <!-- Pokemon evolution -->
                                     <?php
-                                    if (isset($_GET['name'])) { // Check if previous evolution exists
-                                        if (
-                                            $poke_array_species["evolves_from_species"] === null
-                                        ) {
-                                            $no_evolution = "No prev. evolution";
-                                            echo $no_evolution;
-                                        } else {
-                                            $previous_evolution = "Previous Evolution: " . $poke_array_species["evolves_from_species"]["name"];
-                                            echo $previous_evolution;
-                                        }
+                                    if (
+                                        $poke_array_species["evolves_from_species"] === null
+                                    ) {
+                                        $no_evolution = "No prev. evolution";
+                                        echo $no_evolution;
+                                    } else {
+                                        $previous_evolution = "Previous Evolution: " . $poke_array_species["evolves_from_species"]["name"];
+                                        echo $previous_evolution;
                                     }
                                     ?>
                                 </div>
@@ -120,12 +117,10 @@ if (!empty($_GET['name'])) { // gets the input value
                                 <div class="habitat">
                                     <!-- Habitat -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        if ($poke_habitat !== null) {
-                                            echo "Habitat: {$poke_habitat['name']}";
-                                        } else {
-                                            echo "Habitat: Unknown";
-                                        }
+                                    if ($poke_habitat !== null) {
+                                        echo "Habitat: {$poke_habitat['name']}";
+                                    } else {
+                                        echo "Habitat: Unknown";
                                     }
                                     ?>
                                 </div>
@@ -133,9 +128,7 @@ if (!empty($_GET['name'])) { // gets the input value
                                 <div class="grow">
                                     <!-- Growth Rate -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "Growth: {$poke_growth}";
-                                    }
+                                    echo "Growth: {$poke_growth}";
                                     ?>
                                 </div>
                             </div>
@@ -145,17 +138,13 @@ if (!empty($_GET['name'])) { // gets the input value
                                 <!-- img front -->
                                 <img class="poke-img" src="
                                 <?php
-                                if (isset($_GET['name'])) {
-                                    echo $poke_img_front;
-                                }
+                                echo $poke_img_front;
                                 ?>">
 
                                 <!-- img back -->
                                 <img class="poke-img" src="
                                 <?php
-                                if (isset($_GET['name'])) {
-                                    echo $poke_img_back;
-                                }
+                                echo $poke_img_back;
                                 ?>">
                             </div>
 
@@ -165,45 +154,35 @@ if (!empty($_GET['name'])) { // gets the input value
                                 <div class="hp">
                                     <!-- HP -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "HP <span>{$poke_hp}</span>";
-                                    }
+                                    echo "HP <span>{$poke_hp}</span>";
                                     ?>
                                 </div>
 
                                 <div class="dmg">
                                     <!-- DMG -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "Attack <span>{$poke_dmg}</span>";
-                                    }
+                                    echo "Attack <span>{$poke_dmg}</span>";
                                     ?>
                                 </div>
 
                                 <div class="def">
                                     <!-- DEF -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "Defense <span>{$poke_def}</span>";
-                                    }
+                                    echo "Defense <span>{$poke_def}</span>";
                                     ?>
                                 </div>
 
                                 <div class="special-attack">
                                     <!-- Special Attack -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "Special Attack <span>{$poke_special}<span>";
-                                    }
+                                    echo "Special Attack <span>{$poke_special}<span>";
                                     ?>
                                 </div>
 
                                 <div class="special-defense">
                                     <!-- Special Defence -->
                                     <?php
-                                    if (isset($_GET['name'])) {
-                                        echo "Special Defence <span>{$poke_special_def}</span>";
-                                    }
+                                    echo "Special Defence <span>{$poke_special_def}</span>";
                                     ?>
                                 </div>
                             </div>
@@ -213,17 +192,15 @@ if (!empty($_GET['name'])) { // gets the input value
                         <div class="moves-wrap">
                             <div class="moves">
                                 <?php
-                                if (isset($_GET['name'])) {
-                                    if (count($poke_array['moves']) <= 1) {
-                                        $poke_moves = $poke_array['moves'][0]['move']['name'];
-                                        echo $poke_moves;
-                                    } else {
-                                        $rand_keys = array_rand($poke_array['moves'], 4);
-                                        echo "<span>{$poke_array['moves'][$rand_keys[0]]['move']['name']}</span>";
-                                        echo "<span>{$poke_array['moves'][$rand_keys[1]]['move']['name']}</span>";
-                                        echo "<span>{$poke_array['moves'][$rand_keys[2]]['move']['name']}</span>";
-                                        echo "<span>{$poke_array['moves'][$rand_keys[3]]['move']['name']}</span>";
-                                    }
+                                if (count($poke_array['moves']) <= 1) {
+                                    $poke_moves = $poke_array['moves'][0]['move']['name'];
+                                    echo $poke_moves;
+                                } else {
+                                    $rand_keys = array_rand($poke_array['moves'], 4);
+                                    echo "<span>{$poke_array['moves'][$rand_keys[0]]['move']['name']}</span>";
+                                    echo "<span>{$poke_array['moves'][$rand_keys[1]]['move']['name']}</span>";
+                                    echo "<span>{$poke_array['moves'][$rand_keys[2]]['move']['name']}</span>";
+                                    echo "<span>{$poke_array['moves'][$rand_keys[3]]['move']['name']}</span>";
                                 }
                                 ?>
                             </div>
