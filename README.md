@@ -2,8 +2,9 @@
 ![](img/website-preview.png)
 
 # Short introduction:
-An improved version of the previous Pokédex I made using Javascript 
-Previous Pokédex [LINK](https://antoniobaciu.github.io/Pokedex/)
+An improved version of the previous Pokédex I made using Javascript. 
+
+# Previous Pokédex [LINK](https://antoniobaciu.github.io/Pokedex/)
 
 __Features:__
 - [x] Access API and return needed data using PHP
